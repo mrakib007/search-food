@@ -1,0 +1,36 @@
+body{
+    background-color:ghostwhite ;
+}
+#food-items{
+    display: flex; 
+    flex-wrap: wrap;
+    padding:0 80px;
+    grid-gap: 30px;
+} 
+#food-items img{
+    width: 300px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.food-item{
+    border: 1px darkgray;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+}
+#food-details{
+    margin: 10px auto;
+    border: 2px gray;
+    border-radius: 10px;
+    background-color: ghostwhite;
+    width: 30%;
+    display: none;
+    list-style: none;
+    padding: 15px;
+}
+#food-details img{
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 15px;
+}
