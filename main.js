@@ -1,59 +1,54 @@
-// search your desired food by first letter 
-document.getElementById('search-btn').addEventListener('click', () => {
-    const searchFood = document.getElementById('food-input').value;
-    fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${searchFood}`)
-        .then(res => res.json())
-        .then(data => foodDisplay(data.meals))
-        .catch(error => alert("Please search foods by their first letter."));
-         document.getElementById('food-input').value = "";
-})
-
-// show the search results
-const foodDisplay= food => {
-    const displayFood = document.getElementById('food-items');
-    food.forEach(item => {
-        const showItem = document.createElement('div');
-        showItem.className = 'show-food';
-        const foodDetails = `
-        <img onclick="foodDetail('${item.idMeal}')" src="${item.strMealThumb}">
-        <br><br>
-        <h4 onclick="foodDetail('${item.idMeal}')">${item.strMeal}</h4><br>`;
-        showItem.innerHTML = foodDetails;
-        displayFood.appendChild( showItem);
-    });
+//search the foods as you wish with the first letter
+function clickFunction(){
+    const searchValue = document.getElementById('food-input').value;
+    fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${searchValue}`)
+    .then(res=>res.json())
+    .then(data=>displayFood(data.meals))
+    .catch(error => alert("Please search foods by their first letter."));
+    document.getElementById('food-input').value = "";  
+} 
+//food display function
+const displayFood= food => {
+  const showFood = document.getElementById('show-food');
+  food.forEach(item => {
+      const showItem = document.createElement('div');
+      const foodDetails =  `  <div class="card" style="width: 18rem;">
+          <img src="${item.strMealThumb}" onclick="detailFood('${item.idMeal}')" class="card-img-top" alt="...">
+          <div class="card-body">
+          <p style= "background-color : goldenRod;" class="card-text">${item.strMeal}</p>
+          </div>
+          </div> `;
+      showItem.innerHTML = foodDetails;
+      showFood.appendChild( showItem);
+  });
 }
-
-// detail information about food
-const foodDetail = id => {
-    const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
-    fetch(url)
-        .then(res => res.json())
-        .then(data => showIngredients(data.meals[0]))
-        .catch(error => alert("Please search foods by their first letter."));
+//food cooking details and youtube videos.
+function detailFood(foodId){
+  fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${foodId}`)
+      .then(res => res.json())
+      .then(data => detailInfo(data.meals[0]))
+      .catch(error => alert("Please search foods by their first letter."));
 }
-
-// details info about ingredients
-const showIngredients = material => {
-    document.getElementById('food-items').style.display = "none";
-    document.getElementById('search-btn').style.display = "none";
-    document.getElementById('food-input').style.display = "none";
-    document.getElementById('food-details').style.display = "block";
-    const foodItem = document.getElementById('food-details');
-    foodItem.innerHTML = `
-    <img src="${material.strMealThumb}"><br><br>
-    <h3>${material.strMeal}</h3><br>
-    <h5>Ingredients</h5><br>
-    <li>${material.strIngredient1}</li>
-    <li>${material.strIngredient2}</li>
-    <li>${material.strIngredient3}</li>
-    <li>${material.strIngredient4}</li>
-    <li>${material.strIngredient5}</li>
-
-    <button class="btn btn-info" id="previous">previous page</button>`;
-    document.getElementById("previous").addEventListener("click", () => {
-        document.getElementById('food-details').style.display = "none";
-        document.getElementById('food-items').style.display = "flex";
-        document.getElementById('search-btn').style.display = "block";
-        document.getElementById('food-input').style.display = "block";
-    });
+function detailInfo(material){
+  document.getElementById('no-display').style.display = 'none';
+  document.getElementById('show-food').style.display = 'none';
+  document.getElementById('singleFood').style.display = 'block';
+  document.getElementById('singleFood').innerHTML =
+  `<div class="card my-auto mx-auto" style="width: 18rem;">
+  <img src="${material.strMealThumb}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title"> ${material.strMeal}</h5>
+    <p class="card-text" style="text-align:left;">${material.strIngredient1}</p>
+    <p class="card-text" style="text-align:left;">${material.strIngredient2}</p>
+    <p class="card-text" style="text-align:left;">${material.strIngredient3}</p>
+    <p class="card-text" style="text-align:left;">${material.strIngredient4}</p>
+    <p class="card-text" style="text-align:left;">${material.strIngredient5}</p>
+    <a href="${material.strYoutube}" class="btn btn-danger"  target = "_blank">See Cooking Tutorial</a>
+  </div>
+</div>`
 }
+//click home on the nav bar to reload the page
+function reloadPage(){
+  window.location.reload();
+}
+                                                   //Thank you
